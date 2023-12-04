@@ -24,16 +24,17 @@ class Movie
         $vote = ceil($this->vote_average/2);
         $template = '<p>';
         for ($n=1;$n<=5;$n++){
-            $template .= $n<= $vote ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-solid fa-star"></i>';
+            $template .= $n<= $vote ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
         }
         $template .= '</p>';
+        return $template;
     }
 
     public function printCard(){
         $image = $this->poster_path;
         $title = $this->original_title;
         $content = $this->overview;
-        $custom = $this->vote_average;
+        $custom = $this->getVote();
         $genre = $this->genre->name;
         include __DIR__.'/../Views/card.php';
     }
@@ -45,5 +46,4 @@ $movies=[];
 foreach($movieList as $item){
     $movies[] = new Movie($item['id'],$item['title'],$item['overview'],$item['vote_average'],$item['original_language'],$item['poster_path'], $genres[1]);//cambiare genre
 }
-var_dump($movies);
 ?>

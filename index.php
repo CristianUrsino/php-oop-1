@@ -2,6 +2,16 @@
 include __DIR__ . '/Views/header.php';
 include __DIR__.'/Model/Movie.php';
 ?>
+<section>
+    <h2>index</h2>
+    <div class="row">
+        <?php
+            foreach ($movies as $movie){
+                $movie->printCard();
+            }
+        ?>
+    </div>
+</section>
 <?php
 include __DIR__ . '/Views/footer.php';
 ?>

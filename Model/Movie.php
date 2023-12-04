@@ -30,11 +30,31 @@ class Movie
         return $template;
     }
 
+    public function getFlag(){
+        $initials =  strtoupper($this->original_language);
+        switch ($initials) {
+            case 'EN':
+                $initials = 'GB';
+                break;
+            case 'JA':
+                $initials = 'JP';
+                break;
+            case 'KO':
+                $initials = 'KM';
+                break;
+        }
+        if (!in_array($initials, ['GB', 'JP', 'KM', 'IT', 'FR'])) { 
+            $initials = 'GB';
+        }
+        return 'https://flagsapi.com/' . $initials . '/shiny/32.png';
+    }
+
     public function printCard(){
         $image = $this->poster_path;
         $title = $this->original_title;
         $content = $this->overview;
         $custom = $this->getVote();
+        $flag = $this->getFlag();
         $genre = $this->genre;
         include __DIR__.'/../Views/card.php';
     }

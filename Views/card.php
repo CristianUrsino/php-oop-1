@@ -8,8 +8,9 @@
             <p class="card-text">
                 <?= $content ?>
             </p>
-            <div class="d-flex justify-content-between align-items-flex-start">
+            <div class="d-flex justify-content-between align-items-center">
                 <?= $custom ?>
+                <img src="<?= $flag ?>" alt="flag">
                 <div>
                     <?php 
                         foreach($genre as $value){

@@ -11,7 +11,11 @@
             <div class="d-flex justify-content-between align-items-flex-start">
                 <?= $custom ?>
                 <div>
-                    <?= $genre ?>
+                    <?php 
+                        foreach($genre as $value){
+                            echo $value->name . '<br>';
+                        }
+                    ?>
                 </div>
             </div>
 

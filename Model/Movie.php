@@ -8,9 +8,9 @@ class Movie
     private float $vote_average;
     private string $poster_path;
     private string $original_language;
-    private Genre $genre;
+    private array $genre;
     
-    function __construct($id,$title,$overview,$vote,$language,$image,Genre $genre){
+    function __construct($id,$title,$overview,$vote,$language,$image,$genre){
         $this->id = $id;
         $this->original_title = $title;
         $this->overview = $overview;
@@ -35,7 +35,7 @@ class Movie
         $title = $this->original_title;
         $content = $this->overview;
         $custom = $this->getVote();
-        $genre = $this->genre->name;
+        $genre = $this->genre;
         include __DIR__.'/../Views/card.php';
     }
 }
@@ -44,6 +44,48 @@ $movieString = file_get_contents(__DIR__.'/movie_db.json');
 $movieList = json_decode($movieString,true);
 $movies=[];
 foreach($movieList as $item){
-    $movies[] = new Movie($item['id'],$item['title'],$item['overview'],$item['vote_average'],$item['original_language'],$item['poster_path'], $genres[1]);//cambiare genre
+
+    //mette in genres_item tutti i generi del film in base all'id, NON ESSENDO COLLEGATI REALMENTE I GENERI: vado a prendere ogni casistica (gli id sembrano andare da 10 a 1000) ed avendo 7 generi li ho suddivisi inequalmente (in quando sopra i 100 sono meno rari) se presenti più id nello stesso range non viene aggiunto
+    $genres_item = [];
+    foreach($item['genre_ids'] as $current_genre){
+        if($current_genre<20){
+            $current_genre = $genres[0];
+            if(!in_array($current_genre,$genres_item)){
+                $genres_item[] = $current_genre;
+            }
+        }elseif($current_genre>20 && $current_genre<40){
+            $current_genre = $genres[1];
+            if(!in_array($current_genre,$genres_item)){
+                $genres_item[] = $current_genre;
+            }
+        }elseif($current_genre>40 && $current_genre<60){
+            $current_genre = $genres[2];
+            if(!in_array($current_genre,$genres_item)){
+                $genres_item[] = $current_genre;
+            }
+        }elseif($current_genre>60 && $current_genre<80){
+            $current_genre = $genres[3];
+            if(!in_array($current_genre,$genres_item)){
+                $genres_item[] = $current_genre;
+            }
+        }elseif($current_genre>80 && $current_genre<100){
+            $current_genre = $genres[4];
+            if(!in_array($current_genre,$genres_item)){
+                $genres_item[] = $current_genre;
+            }
+        }elseif($current_genre>100 && $current_genre<500){
+            $current_genre = $genres[5];
+            if(!in_array($current_genre,$genres_item)){
+                $genres_item[] = $current_genre;
+            }
+        }else{
+            $current_genre = $genres[6];
+            if(!in_array($current_genre,$genres_item)){
+                $genres_item[] = $current_genre;
+            }
+        }
+    }
+    //istanzio i film
+    $movies[] = new Movie($item['id'],$item['title'],$item['overview'],$item['vote_average'],$item['original_language'],$item['poster_path'], $genres_item);
 }
 ?>
